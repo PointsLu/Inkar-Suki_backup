@@ -1,5 +1,6 @@
 from .config import Config
 token = Config.jx3api_globaltoken
+tokenv2 = Config.jx3apiv2_globaltoken
 bot = "Inkar-Suki"
 proxies = None
 

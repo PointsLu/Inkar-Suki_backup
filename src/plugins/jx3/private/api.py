@@ -44,13 +44,14 @@ bad = "<img src=\"https://jx3wbl.xoyocdn.com/img/icon-camp-bad.07567e9f.png\">"
 good = "<img src=\"https://jx3wbl.xoyocdn.com/img/icon-camp-good.0db444fe.png\">"
 
 
-async def get_baizhan_img():
-    url = await get_url_with_token("baizhan")
-    data = await get_api(url + f"&nickname={bot}")
-    return data["data"]["url"]
+#async def get_baizhan_img():
+#    url = await get_url_with_token("baizhan")
+#    data = await get_api(url + f"&nickname={bot}")
+#    return data["data"]["url"]
 
 async def get_dilu_data():
-    url = await get_url_with_token("dilu")
+#    url = await get_url_with_token("dilu")
+    url = f"{Config.jx3api_link}/data/horse/records?token={tokenv2}"
     data = await get_api(url)
     table = []
     for i in data["data"]:

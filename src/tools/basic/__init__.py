@@ -41,6 +41,7 @@ PROMPT_NumberNotExist = "唔……输入的数字不在范围内哦，请检查�
 PROMPT_PlayerNotExist = "唔……玩家不存在哦，请检查后重试！"
 
 token = Config.jx3api_globaltoken
+tokenv2 = Config.jx3apiv2_globaltoken
 ticket = Config.jx3_token
 bot = "Inkar-Suki"
 device_id = ticket.split("::")[-1]
