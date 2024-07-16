@@ -19,28 +19,30 @@ async def _(event: GroupMessageEvent, args: Message = CommandArg()):
     Example：-日常
     """
     server = args.extract_plain_text()
-#    server = server_mapping(server, str(event.group_id))
     server = server_mapping(server, group_id=event.group_id)
     info = await daily_(server)
     await jx3_cmd_daily.finish(info)
 
 @scheduler.scheduled_job("cron", hour="8", minute="30")
-async def run_at_8_30():
-    msg = await daily_()
-    msg = "早安！菲佣玛丽为您送上今天的日常：\n" + msg
+async def run_at_8_30(server: str = None):
     bots = get_bots()
     groups = os.listdir(DATA)
     group = {}
+    server = {}
     for i in list(bots):
         single_groups = await bots[i].call_api("get_group_list")
         group_id_s = []
+        server_id_s = []
         for x in single_groups:
             group_id_s.append(x["group_id"])
         group[i] = group_id_s
+        server[i] = server_id_s
     for group_id in groups:
         for x in list(group):
             if int(group_id) in group[x]:
                 if "日常" in getGroupData(str(group_id), "subscribe"):
+                    msg = await daily_(server, group_id)
+                    msg = "早安！菲佣玛丽为您送上今天的日常：\n" + msg
                     await bots[x].call_api("send_group_msg", group_id=int(group_id), message=msg)
 
 @scheduler.scheduled_job("cron", hour="19", minute="30")
