@@ -5,8 +5,8 @@ async def news_(token: str = None):
     info = await get_api(full_link)
 
     def dtut(date, title, url, type_):
-        return f"{date}{type_}：{title}\n{url}"
+        return f"{date} {type_}：{title}\n{url}"
     msg = ""
     for i in info["data"]:
-        msg = msg + dtut(i["date"], i["title"], i["url"], i["type"]) + "\n"
+        msg = msg + dtut(i["date"], i["title"], i["url"], i["type"]) + "\n\n"
     return msg

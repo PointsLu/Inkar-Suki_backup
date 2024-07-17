@@ -42,7 +42,7 @@ async def run_at_8_30(server: str = None):
             if int(group_id) in group[x]:
                 if "日常" in getGroupData(str(group_id), "subscribe"):
                     msg = await daily_(server, group_id)
-                    msg = "早安！菲佣玛丽为您送上今天的日常：\n" + msg
+                    msg = "早安！菲佣玛丽为您送上今天的日常：\n\n" + msg
                     await bots[x].call_api("send_group_msg", group_id=int(group_id), message=msg)
 
 @scheduler.scheduled_job("cron", hour="19", minute="30")
