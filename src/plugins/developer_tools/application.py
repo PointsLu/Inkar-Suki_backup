@@ -1,8 +1,9 @@
 from src.tools.basic import *
 from nonebot.adapters.onebot.v11 import Bot
 from nonebot.rule import to_me
+from nonebot.exception import FinishedException
 
-like_application = on_command("like_me", aliases={"草我"}, rule=to_me(), force_whitespace=True, priority=5)
+like_application = on_command("like_me", aliases={"点赞"}, rule=to_me(), force_whitespace=True, priority=5)
 
 @like_application.handle()
 async def _(event: GroupMessageEvent, bot: Bot):
@@ -16,6 +17,11 @@ async def _(event: GroupMessageEvent, bot: Bot):
         await bot.send_like(user_id=user_id, times=times)
         # 只有在成功点赞后才发送成功消息
         await like_application.finish(f"成功给 QQ 号 {user_id} 点赞 {times} 次")
+    
+    except FinishedException:
+        # 明确捕获 FinishedException 并忽略它
+        raise
+    
     except Exception as e:
         error_message = str(e)
         # 检查错误信息是否包含特定的权限错误
