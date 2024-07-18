@@ -1,7 +1,33 @@
 from src.tools.basic import *
+from nonebot.adapters.onebot.v11 import Bot
+from nonebot.rule import to_me
+
+like_application = on_command("like_me", aliases={"草我"}, rule=to_me(), force_whitespace=True, priority=5)
+
+@like_application.handle()
+async def _(event: GroupMessageEvent, bot: Bot):
+
+    user_id = event.user_id
+    times = 10
+
+    try:
+        # 添加日志记录
+        await bot.send(event, f"准备给 QQ 号 {user_id} 点赞 {times} 次")
+        await bot.send_like(user_id=user_id, times=times)
+        # 只有在成功点赞后才发送成功消息
+        await like_application.finish(f"成功给 QQ 号 {user_id} 点赞 {times} 次")
+    except Exception as e:
+        error_message = str(e)
+        # 检查错误信息是否包含特定的权限错误
+        if "由于对方权限设置，点赞失败" in error_message:
+            await like_application.finish("点赞失败，请前往设置-隐私-权限设置里将允许陌生人赞我功能打开。")
+        elif "今日同一好友点赞数已达上限" in error_message:
+            await like_application.finish("点赞失败，今日点赞数已达上限！")
+        else:
+            await like_application.finish(f"点赞失败: {error_message}")
+
 
 current_application = on_command("邀请列表", force_whitespace=True, priority=5)
-
 
 @current_application.handle()
 async def _(event: Event, args: Message = CommandArg()):
